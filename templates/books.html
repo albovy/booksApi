@@ -1,0 +1,58 @@
+{% extends "skeleton.html" %}
+{% block content %}
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-header">Club Lectura</h1>
+            </div>
+            <p>
+                <a href="/book/add" class="btn btn-primary my-2">Add</a>
+                <a href="/books/comment" class="btn btn-primary my-2">All books commented</a>
+                <a href="/books" class="btn btn-primary my-2">All books</a>
+            </p>
+        </section>
+        <div class="row">
+            {% for book in books %}
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow book expandEvent" id="{{book.isbn}}">
+                    <img class="card-img-top" alt="Thumbnail [100%x225]"
+                         src="{{book.img}}"
+                         data-holder-rendered="true">
+                    <div class="card-body">
+                        <h5 class="card-text">{{book.title}}</h5>
+                        <div class="parent">
+                            <div class="block-ellipsis">{{book.description}}</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button onclick="window.location.href='/book/{{book.isbn}}'" type="button"
+                                        class="btn btn-sm btn-outline-secondary">View
+                                </button>
+                                {% if book.isbn in likes %}
+                                <form action="/book/{{book.isbn}}/dislike" method="post">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger">Not Like
+                                    </button>
+                                </form>
+                                {% else %}
+
+                                <form action="/book/{{book.isbn}}/like" method="post">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-secondary">Like
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">{{book.likes}} likes</small>
+                            <small class="text-muted">{{book.year}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

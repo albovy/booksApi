@@ -1,0 +1,63 @@
+application: club-lectura
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+  - url: /favicon\.ico
+    static_files: favicon.ico
+    upload: favicon\.ico
+
+  - url: /templates
+    static_dir: templates
+    application_readable: true
+
+  - url: /res
+    static_dir: res
+
+  - url: /books
+    script: handlers.book.show_all.app
+    login: required
+
+  - url: /books/comment
+    script: handlers.book.comment.app
+    login: required
+
+  - url: /book/add
+    script: handlers.book.add.app
+    login: required
+
+  - url: /book/([0-9]*)/like
+    script: handlers.like.add.app
+    login: required
+
+  - url: /book/([0-9]*)/dislike
+    script: handlers.like.delete.app
+    login: required
+
+  - url: /book/([0-9]*)/comment
+    script: handlers.comment.add.app
+    login: required
+
+  - url: /book/([0-9]*)
+    script: handlers.book.show_current.app
+    login: required
+
+  - url: /error
+    script: handlers.error_manager.app
+
+  - url: /
+    script: handlers.welcome.app
+
+  - url: .*
+    script: handlers.book.add.app
+    login: required
+
+libraries:
+  - name: webapp2
+    version: "2.5.2"
+  - name: jinja2
+    version: latest
+  - name: six
+    version: latest

@@ -1,0 +1,61 @@
+{% extends "skeleton.html" %}
+{% block content %}
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-8 box-shadow book" id="{{book.isbn}}">
+                    <img class="card-img-top" alt="Thumbnail [100%x225]"
+                         style="height: 300px; width: 200px; align-self: center; margin-top:10px" src="{{book.img}}"
+                         data-holder-rendered="true">
+                    <div class="card-body">
+                        <p class="card-text">{{book.description}}</p>
+                        <p class="card-text">Publisher: {{book.publisher}}</p>
+                        <p class="card-text">Author: {{book.author}}</p>
+                        <h2>Main comment</h2>
+                        <p class="card-text">{{book.mainComment}}</p>
+
+                        <h2>All comments</h2>
+                        {% for comment in comments %}
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
+                                     class="img img-rounded img-fluid">
+                            </div>
+                            <div class="col-md-11 col-sm-10">
+                                <h6>{{comment.user.split("@")[0]}}</h6>
+                                <div class="clearfix">
+                                    <p>{{comment.comment}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="d-flex justify-content-between align-items-center divBt">
+                            <div class="btn-group">
+                                <button onclick="window.location.href='/books'" type="button"
+                                        class="btn btn-sm btn-outline-danger">Back
+                                </button>
+                            </div>
+                            <small class="text-muted">{{book.year}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <h2>Comments: </h2>
+                <form action="/book/{{book.isbn}}/comment" method="post">
+                    <div>
+                        <textarea class="autoExpand form-control" name="comment" id="comment"></textarea>
+                        <div class="btn-group bot">
+                            <button type="submit"
+                                    class="btn btn-sm btn-outline-primary bt">Post
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
